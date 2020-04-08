@@ -11,6 +11,7 @@ import android.Manifest;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 
+import org.mozilla.vrbrowser.utils.DeviceType;
 import org.mozilla.vrbrowser.utils.SystemUtils;
 
 public class PlatformActivity extends VRActivity {
@@ -30,6 +31,7 @@ public class PlatformActivity extends VRActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DeviceType.setType(DeviceType.ViveFocusPlus);
 
         queueRunnable(new Runnable() {
             @Override

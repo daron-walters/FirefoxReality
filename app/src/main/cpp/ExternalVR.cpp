@@ -127,7 +127,7 @@ struct ExternalVR::State {
   vrb::Vector eyeOffsets[device::EyeCount];
   uint64_t lastFrameId = 0;
   bool firstPresentingFrame = false;
-  bool compositorEnabled = false;
+  bool compositorEnabled = true;
   bool waitingForExit = false;
 
   State() {
@@ -339,14 +339,14 @@ ExternalVR::SetCompositorEnabled(bool aEnabled) {
   }
   m.compositorEnabled = aEnabled;
   if (aEnabled) {
-    VRBrowser::ResumeCompositor();
+    VRBrowser::OnExitWebXR();
   } else {
     // Set suppressFrames to avoid a deadlock between the compositor sync pause call and the gfxVRExternal SubmitFrame result wait.
     m.system.displayState.suppressFrames = true;
     m.system.displayState.lastSubmittedFrameId = 0;
     m.lastFrameId = 0;
     PushSystemState();
-    VRBrowser::PauseCompositor();
+    VRBrowser::OnEnterWebXR();
     m.system.displayState.suppressFrames = false;
     PushSystemState();
   }
